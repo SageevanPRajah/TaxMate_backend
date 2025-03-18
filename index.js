@@ -3,11 +3,15 @@ import mongoose from 'mongoose';
 import { PORT, mongodbURL } from './config.js';
 import cors from 'cors';
 
+//Sageevan
 // import routes
 import productRoute from './routes/productRoute.js';
+import userRoute from './routes/userRoute.js';
+import authRoute from './routes/authRoutes.js';
+
+//Gihan
 import expenseRoute from './routes/expense.js'; 
 import incomeRoute from './routes/income.js';
-
 
 const app = express();
 app.use(express.json({limit: '10mb'}));
@@ -19,10 +23,16 @@ app.get('/', (req, res) => {
     return res.status(234).send('Welcome to MERN Stack');
 });
 
+//Sageevan
 // Routes for logics
 app.use('/product', productRoute);
+app.use('/users', userRoute);
+app.use('/auth', authRoute);
+
+//Gihan
 app.use('/expense', expenseRoute);
 app.use('/income', incomeRoute);
+
 
 
 mongoose
