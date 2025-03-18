@@ -5,6 +5,8 @@ import cors from 'cors';
 
 // import routes
 import productRoute from './routes/productRoute.js';
+import taxRateRoute from './routes/taxRateRoute.js';
+import taxReliefRoute from './routes/taxReliefRoute.js';
 
 
 const app = express();
@@ -19,6 +21,8 @@ app.get('/', (req, res) => {
 
 // Routes for logics
 app.use('/product', productRoute);
+app.use('/taxRate', taxRateRoute);
+app.use('/taxRelief', taxReliefRoute);
 
 
 mongoose
