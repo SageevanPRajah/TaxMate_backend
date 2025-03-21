@@ -5,7 +5,7 @@ import {
   getTaxReliefById,
   updateTaxRelief,
   deleteTaxRelief,
-} from "../controllers/TaxReliefControllers.js";
+} from "../controllers/taxReliefControllers.js";
 
 const router = express.Router();
 
