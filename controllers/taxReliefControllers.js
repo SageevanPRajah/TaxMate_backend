@@ -3,7 +3,7 @@ import{TaxRelief} from "../models/taxReliefModel.js";
 // Create a new tax relief entry
 export const createTaxRelief = async (req, res) => {
     try {
-      const { userID, year, income, deduction, taxReliefs, finalTaxAmount, status } = req.body;
+      const { userID, year, income, deduction, taxReliefs,  status } = req.body;
   
       console.log("Request Body:", req.body); // Debugging
       console.log("userID type:", typeof userID); // Debugging
@@ -16,11 +16,11 @@ export const createTaxRelief = async (req, res) => {
         deduction === undefined ||
         !taxReliefs ||
         !Array.isArray(taxReliefs) ||
-        taxReliefs.length === 0 ||
-        finalTaxAmount === undefined
+        taxReliefs.length === 0 
+        
       ) {
         return res.status(400).send({
-          message: "userID, income, deduction, taxReliefs, and finalTaxAmount are required",
+          message: "userID, income, deduction, taxReliefs,  are required",
         });
       }
   
@@ -30,7 +30,6 @@ export const createTaxRelief = async (req, res) => {
         income,
         deduction,
         taxReliefs,
-        finalTaxAmount,
         status: status || "not paid",
       };
   

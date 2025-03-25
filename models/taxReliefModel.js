@@ -26,7 +26,7 @@ const taxReliefEntrySchema = new mongoose.Schema(
           message: "At least one tax relief entry is required.",
         },
       },
-      finalTaxAmount: { type: Number }, // Correct: Should be a Number
+      
       status: { type: String, default: "not paid" }, // Correct: Should be a String
     },
     {
