@@ -15,7 +15,7 @@ router.post("/", createTaxRelief);
 // Get all tax relief records
 router.get("/", getAllTaxReliefs);
 
-// Get a single tax relief record by ID 
+// Get a single tax relief record by ID
 router.get("/:id", getTaxReliefById);
 
 // Update a tax relief record by ID
