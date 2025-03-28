@@ -5,6 +5,8 @@ import cors from 'cors';
 
 // import routes
 import productRoute from './routes/productRoute.js';
+import assetRoute from './routes/assetRoute.js';
+import liabilityRoute from './routes/liabilityRoute.js';    
 
 
 const app = express();
@@ -19,7 +21,8 @@ app.get('/', (req, res) => {
 
 // Routes for logics
 app.use('/product', productRoute);
-
+app.use('/asset', assetRoute);
+app.use('/liability', liabilityRoute);
 
 mongoose
 .connect(mongodbURL)
