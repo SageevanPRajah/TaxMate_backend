@@ -4,7 +4,6 @@ import { PORT, mongodbURL } from './config.js';
 import cors from 'cors';
 
 // import routes
-import productRoute from './routes/productRoute.js';
 import userRoute from './routes/userRoute.js';
 import authRoute from './routes/authRoutes.js';
 
@@ -20,7 +19,6 @@ app.get('/', (req, res) => {
 });
 
 // Routes for logics
-app.use('/product', productRoute);
 app.use('/users', userRoute);
 app.use('/auth', authRoute);
 
