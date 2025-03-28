@@ -5,8 +5,6 @@ import cors from 'cors';
 
 //Sageevan
 // import routes
-import productRoute from './routes/productRoute.js';
-
 import userRoute from './routes/userRoute.js';
 import authRoute from './routes/authRoutes.js';
 
@@ -34,8 +32,6 @@ app.get('/', (req, res) => {
 
 //Sageevan
 // Routes for logics
-app.use('/product', productRoute);
-
 app.use('/users', userRoute);
 app.use('/auth', authRoute);
 
