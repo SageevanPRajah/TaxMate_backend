@@ -18,7 +18,9 @@ import taxReliefRoute from './routes/taxReliefRoute.js';
 import expenseRoute from './routes/expense.js'; 
 import incomeRoute from './routes/income.js';
 
-
+//Dimuthu
+import assetRoute from './routes/assetRoute.js';
+import liabilityRoute from './routes/liabilityRoute.js';   
 
 const app = express();
 app.use(express.json({limit: '10mb'}));
@@ -45,6 +47,9 @@ app.use('/taxRelief', taxReliefRoute);
 app.use('/expense', expenseRoute);
 app.use('/income', incomeRoute);
 
+//Dimuthu
+app.use('/asset', assetRoute);
+app.use('/liability', liabilityRoute);
 
 mongoose
 .connect(mongodbURL)
