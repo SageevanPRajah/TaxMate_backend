@@ -6,12 +6,21 @@ import cors from 'cors';
 //Sageevan
 // import routes
 import productRoute from './routes/productRoute.js';
+
 import userRoute from './routes/userRoute.js';
 import authRoute from './routes/authRoutes.js';
+
+//Isuru
+import taxRateRoute from './routes/taxRateRoute.js';
+import taxReliefRoute from './routes/taxReliefRoute.js';
 
 //Gihan
 import expenseRoute from './routes/expense.js'; 
 import incomeRoute from './routes/income.js';
+
+//Dimuthu
+import assetRoute from './routes/assetRoute.js';
+import liabilityRoute from './routes/liabilityRoute.js';   
 
 const app = express();
 app.use(express.json({limit: '10mb'}));
@@ -26,14 +35,21 @@ app.get('/', (req, res) => {
 //Sageevan
 // Routes for logics
 app.use('/product', productRoute);
+
 app.use('/users', userRoute);
 app.use('/auth', authRoute);
+
+//Isuru
+app.use('/taxRate', taxRateRoute);
+app.use('/taxRelief', taxReliefRoute);
 
 //Gihan
 app.use('/expense', expenseRoute);
 app.use('/income', incomeRoute);
 
-
+//Dimuthu
+app.use('/asset', assetRoute);
+app.use('/liability', liabilityRoute);
 
 mongoose
 .connect(mongodbURL)
