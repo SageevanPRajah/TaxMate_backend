@@ -1,5 +1,5 @@
 import express from 'express';
-import { postIncome, getIncomes, updateIncome, deleteIncome } from '../controllers/incomeControllers.js';
+import { postIncome, getIncomes,getOneIncome, updateIncome, deleteIncome } from '../controllers/incomeControllers.js';
 
 const router = express.Router();
 
@@ -8,6 +8,9 @@ const router = express.Router();
 
     // Routes for view all income
     router.get('/', getIncomes);
+
+    // Routes for get one income
+    router.get('/:id', getOneIncome);
 
     // Routes for edit one income
     router.put('/:id', updateIncome);

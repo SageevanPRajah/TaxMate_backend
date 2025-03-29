@@ -4,31 +4,53 @@ import { Income } from "../models/income.js";
 
 export const postIncome = async (req, res) => {
     try {
-        if(
-            
-            !req.body.incomeName ||
-            !req.body.incomeType ||
-            !req.body.date ||
-            !req.body.amount 
-
-        ) {
-            return res.status(400).send({
-                message: 'All fields are required'
-            });
+      const { incomeID, incomeName, incomeType, date, amount } = req.body;
+  
+      if (!incomeID || !incomeName || !incomeType || !date || !amount) {
+        return res.status(400).send({ message: 'All fields are required' });
+      }
+  
+      // Determine the fiscal year range based on the date
+      const incomeDate = new Date(date);
+      const year = incomeDate.getMonth() + 1 >= 4 ? incomeDate.getFullYear() : incomeDate.getFullYear() - 1;
+  
+      const fiscalYearStart = new Date(`${year}-04-01T00:00:00.000Z`);
+      const fiscalYearEnd = new Date(`${year + 1}-03-31T23:59:59.999Z`);
+  
+      // Calculate total amount for incomes in this fiscal year
+      const totalIncome = await Income.aggregate([
+        {
+          $match: {
+            date: { $gte: fiscalYearStart, $lte: fiscalYearEnd }
+          }
+        },
+        {
+          $group: {
+            _id: null,
+            total: { $sum: "$amount" }
+          }
         }
-        const newIncome = {
-            incomeName: req.body.incomeName,
-            incomeType: req.body.incomeType,
-            date: req.body.date,
-            amount: req.body.amount
-        };
-        const income = await Income.create(newIncome);
-        return res.status(200).send(income);
+      ]);
+  
+      const totalAmount = (totalIncome[0]?.total || 0) + Number(amount); // include the current one
+  
+      // Save the new income with totalAmount
+      const newIncome = await Income.create({
+        incomeID,
+        incomeName,
+        incomeType,
+        date,
+        amount,
+        totalAmount
+      });
+  
+      return res.status(200).send(newIncome);
     } catch (error) {
-        console.log(error.message);
-        return res.status(500).send({message: error.message});
+      console.log(error.message);
+      return res.status(500).send({ message: error.message });
     }
-};
+  };
+  
 
 // Routes for view all income
 export const getIncomes = async (req, res) => {
@@ -44,21 +66,11 @@ export const getIncomes = async (req, res) => {
     }
 };
 
-// Routes for update income
-export const updateIncome = async (req, res) => {
+// Routes for get one income
+export const getOneIncome = async (req, res) => {
     try {
-        if(
-            !req.body.incomeName ||
-            !req.body.incomeType ||
-            !req.body.date ||
-            !req.body.amount 
-        ) {
-            return res.status(400).send({
-                message: 'All fields are required'
-            });
-        }
         const { id } = req.params;
-        const income = await Income.findByIdAndUpdate(id,req.body);
+        const income = await Income.findById(id);
         if (!income) {
             return res.status(404).json({ message: "Income not found" });
         }
@@ -68,6 +80,28 @@ export const updateIncome = async (req, res) => {
         return res.status(500).send({message: error.message});
     }
 };
+
+// Routes for update income
+export const updateIncome = async (req, res) => {
+    try {
+        const updates = req.body;
+        if (!Object.keys(updates).length) {
+            return res.status(400).send({ message: 'No data provided for update' });
+        }
+        const { id } = req.params;
+        const income = await Income.findByIdAndUpdate(id, updates, { new: true });
+
+        if (!income) {
+            return res.status(404).json({ message: "Income not found" });
+        }
+
+        return res.status(200).send({ message: "Income updated successfully", data: income });
+    } catch (error) {
+        console.log(error.message);
+        return res.status(500).send({ message: error.message });
+    }
+};
+
 
 // Routes for delete income
 export const deleteIncome = async (req, res) => {
