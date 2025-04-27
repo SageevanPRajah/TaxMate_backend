@@ -10,7 +10,7 @@ router.post("/register", registerUser);
 router.post("/login", loginUser);
 
 // Protected Routes
-router.get("/", protect, adminOnly, getUsers); // Only Admin can see all users
+router.get("/", protect, getUsers); // Only Admin can see all users
 router.get("/profile", protect, getUserProfile);
 router.put("/update", protect, updateUser);
 router.delete("/:id", protect, deleteUser);

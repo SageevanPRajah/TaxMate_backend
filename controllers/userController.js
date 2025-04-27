@@ -140,15 +140,37 @@ export const updateUser = async (req, res) => {
 
       user.firstName = req.body.firstName || user.firstName;
       user.lastName = req.body.lastName || user.lastName;
-      user.profilePicture = req.body.profilePicture || user.profilePicture;
-
+      if (req.body.profilePicture) user.profilePicture = req.body.profilePicture;
+      if (req.body.email && req.body.email !== user.email) {
+        const emailExists = await User.findOne({ email: req.body.email });
+        if (emailExists) {
+          return res.status(400).json({ message: "Email is already in use" });
+        }
+        user.email = req.body.email;
+      }
+  
+      if (req.body.dateOfBirth) {
+        const dob = new Date(req.body.dateOfBirth);
+        if (isNaN(dob.getTime())) {
+          return res.status(400).json({ message: "Invalid date of birth format" });
+        }
+        user.dateOfBirth = dob;
+      }
+  
+      if (req.body.password) {
+        const salt = await bcrypt.genSalt(10);
+        user.hashed_password = await bcrypt.hash(req.body.password, salt);
+      }
+  
       await user.save();
-      res.status(200).json({ message: "User updated successfully", user });
-
-  } catch (error) {
-      res.status(500).json({ message: error.message });
-  }
-};
+      
+      const { hashed_password, ...updatedUser } = user.toObject();
+      res.status(200).json({ message: "User updated successfully", user: updatedUser });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Server error" });
+    }
+  };
 
 // Delete user (Admin only)
 export const deleteUser = async (req, res) => {
@@ -161,5 +183,28 @@ export const deleteUser = async (req, res) => {
 
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+};
+
+// Update user role (Admin only)
+export const updateUserRole = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { role } = req.body;
+
+    if (!role) {
+      return res.status(400).json({ message: "Role is required" });
+    }
+
+    const user = await User.findById(id);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    user.role = role;
+    await user.save();
+
+    res.status(200).json({ message: "User role updated successfully", role: user.role });
+  } catch (error) {
+    console.error("Update Role Error:", error);
+    res.status(500).json({ message: "Server error" });
   }
 };
