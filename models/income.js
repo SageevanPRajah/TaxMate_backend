@@ -4,16 +4,17 @@ const incomeSchema = new mongoose.Schema(
     {
         incomeID: {
             type: String,
+            
         },
 
         incomeName: {
             type: String,
-            required: true
+            
         },
 
         incomeType: {
             type: String,
-            required: true
+            
         },
 
         totalAmount: {
@@ -22,7 +23,7 @@ const incomeSchema = new mongoose.Schema(
 
         date: {
             type: Date,
-            required: true
+            
         },
 
         employementIncomeTotalAmount: {
@@ -43,7 +44,7 @@ const incomeSchema = new mongoose.Schema(
 
         amount: {
             type: Number,
-            required: true
+           
         }
 
     },
