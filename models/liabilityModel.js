@@ -28,9 +28,9 @@ const liabilitySchema = new mongoose.Schema(
             required: true,
             enum: ['Active', 'Paid', 'Overdue']
         },
-        creditor: { 
+        description: {
             type: String,
-            required: true
+            required: false
         }
     },
     {
