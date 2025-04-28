@@ -9,11 +9,10 @@ export const postLiability = async (req, res) => {
             !req.body.type ||
             !req.body.amount ||
             !req.body.dueDate ||
-            !req.body.status ||
-            !req.body.creditor
+            !req.body.status
         ) {
             return res.status(400).send({
-                message: 'All fields are required'
+                message: 'All required fields must be provided'
             });
         }
 
@@ -24,7 +23,7 @@ export const postLiability = async (req, res) => {
             amount: req.body.amount,
             dueDate: req.body.dueDate,
             status: req.body.status,
-            creditor: req.body.creditor
+            description: req.body.description || ''
         };
 
         const liability = await Liability.create(newLiability);
@@ -92,8 +91,8 @@ export const updateLiability = async (req, res) => {
         if (req.body.status) {
             liability.status = req.body.status;
         }
-        if (req.body.creditor) {
-            liability.creditor = req.body.creditor;
+        if (req.body.description !== undefined) {
+            liability.description = req.body.description;
         }
 
         await liability.save();
