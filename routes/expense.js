@@ -1,5 +1,5 @@
 import express from 'express';
-import { postExpense, getExpenses, updateExpense, deleteExpense } from '../controllers/expenseControllers.js';
+import { postExpense, getExpenses,getOneExpense, updateExpense, deleteExpense } from '../controllers/expenseControllers.js';
 
 const router = express.Router();
 
@@ -8,6 +8,9 @@ const router = express.Router();
 
     // Routes for view all expense
     router.get('/', getExpenses);
+
+    // Routes for get one expense
+    router.get('/:id', getOneExpense);
 
     // Routes for edit one expense
     router.put('/:id', updateExpense);
