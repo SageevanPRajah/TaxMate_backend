@@ -185,3 +185,26 @@ export const deleteUser = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+// Update user role (Admin only)
+export const updateUserRole = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { role } = req.body;
+
+    if (!role) {
+      return res.status(400).json({ message: "Role is required" });
+    }
+
+    const user = await User.findById(id);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    user.role = role;
+    await user.save();
+
+    res.status(200).json({ message: "User role updated successfully", role: user.role });
+  } catch (error) {
+    console.error("Update Role Error:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
