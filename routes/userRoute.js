@@ -1,5 +1,5 @@
 import express from "express";
-import { registerUser, loginUser, getUsers, getUserProfile, updateUser, deleteUser, uploadProfilePicture } from "../controllers/userController.js";
+import { registerUser, loginUser, getUsers, getUserProfile, updateUser, deleteUser, uploadProfilePicture, updateUserRole} from "../controllers/userController.js";
 import { protect, adminOnly } from "../middleware/authMiddleware.js";
 import { upload } from "../helper/cloudinarySetUp.js";
 
@@ -10,7 +10,8 @@ router.post("/register", registerUser);
 router.post("/login", loginUser);
 
 // Protected Routes
-router.get("/", protect, adminOnly, getUsers); // Only Admin can see all users
+router.get("/", protect, getUsers); 
+router.put('/:id/role', updateUserRole);
 router.get("/profile", protect, getUserProfile);
 router.put("/update", protect, updateUser);
 router.delete("/:id", protect, deleteUser);

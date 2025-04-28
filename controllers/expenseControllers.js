@@ -4,6 +4,7 @@ import { Expense } from "../models/expense.js";
 export const postExpense = async (req, res) => {
     try {
         if(
+            !req.body.expenseID ||
             !req.body.expenseName ||
             !req.body.date ||
             !req.body.expenseCategory ||
@@ -14,6 +15,7 @@ export const postExpense = async (req, res) => {
             });
         }
         const newExpense = {
+            expenseID: req.body.expenseID,
             expenseName: req.body.expenseName,
             date: req.body.date,
             expenseCategory: req.body.expenseCategory,
@@ -41,23 +43,37 @@ export const getExpenses = async (req, res) => {
     }
 };
 
+// Routes for get one expense
+export const getOneExpense = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const expense = await Expense.findById(id);
+        if (!expense) {
+            return res.status(404).json({ message: "Expense not found" });
+        }
+        return res.status(200).json(expense);
+    } catch (error) {
+        console.log(error.message);
+        return res.status(500).send({message: error.message});
+    }
+};
+
 // Routes for update expense
 export const updateExpense = async (req, res) => {
     try {
-        if(
-            !req.body.expenseName ||
-            !req.body.date ||
-            !req.body.expenseCategory ||
-            !req.body.expenseAmount
-        ) {
-            return res.status(400).send({
-                message: 'All fields are required'
-            });
+        const updates = req.body;
+        if (!Object.keys(updates).length) {
+            return res.status(400).send({ message: "All fields are required" });
         }
         const { id } = req.params;
-        const expense = await Expense.findByIdAndUpdate(id, req.body, { new: true });
-        return res.status(200).send(expense);
-    } catch (error) {
+        const result = await Expense.findByIdAndUpdate(id, updates ,{new: true});
+        
+        if (!result) {
+            return res.status(404).json({ message: "Expense not found" });
+        }
+        return res.status(200).json({ message: "Expense updated successfully" });
+    }
+    catch (error) {
         console.log(error.message);
         return res.status(500).send({message: error.message});
     }
