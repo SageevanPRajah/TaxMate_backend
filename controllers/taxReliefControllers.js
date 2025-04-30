@@ -1,45 +1,44 @@
-import{TaxRelief} from "../models/taxReliefModel.js";
+import { TaxRelief } from "../models/taxReliefModel.js";
 
 // Create a new tax relief entry
 export const createTaxRelief = async (req, res) => {
-    try {
-      const { userID, year, income, deduction, taxReliefs,  status } = req.body;
-  
-      console.log("Request Body:", req.body); // Debugging
-      console.log("userID type:", typeof userID); // Debugging
-      console.log("income type:", typeof income); // Debugging
-  
-      // Validate required fields
-      if (
-        !userID ||
-        !income ||
-        deduction === undefined ||
-        !taxReliefs ||
-        !Array.isArray(taxReliefs) ||
-        taxReliefs.length === 0 
-        
-      ) {
-        return res.status(400).send({
-          message: "userID, income, deduction, taxReliefs,  are required",
-        });
-      }
-  
-      const newTaxRelief = {
-        userID,
-        year,
-        income,
-        deduction,
-        taxReliefs,
-        status: status || "not paid",
-      };
-  
-      const taxRelief = await TaxRelief.create(newTaxRelief);
-      return res.status(201).json(taxRelief);
-    } catch (error) {
-      console.error("Error creating tax relief:", error.message);
-      return res.status(500).send({ message: error.message });
+  try {
+    const { userID, year, income, deduction, taxReliefs, status } = req.body;
+
+    console.log("Request Body:", req.body); // Debugging
+    console.log("userID type:", typeof userID); // Debugging
+    console.log("income type:", typeof income); // Debugging
+
+    // Validate required fields (income is now optional)
+    if (
+      !userID ||
+      deduction === undefined ||
+      !taxReliefs ||
+      !Array.isArray(taxReliefs) ||
+      taxReliefs.length === 0
+    ) {
+      return res.status(400).send({
+        message: "userID, deduction, and taxReliefs are required",
+      });
     }
-  };
+
+    const newTaxRelief = {
+      userID,
+      year,
+      income, // Optional; will be stored if provided
+      deduction,
+      taxReliefs,
+      status: status || "not paid",
+    };
+
+    const taxRelief = await TaxRelief.create(newTaxRelief);
+    return res.status(201).json(taxRelief);
+  } catch (error) {
+    console.error("Error creating tax relief:", error.message);
+    return res.status(500).send({ message: error.message });
+  }
+};
+
 
 // Retrieve all tax relief entries
 export const getAllTaxReliefs = async (req, res) => {
