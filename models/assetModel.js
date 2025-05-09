@@ -2,6 +2,9 @@ import mongoose from 'mongoose';
 
 const assetSchema = new mongoose.Schema(
     {
+        userID: { 
+            type: String 
+        },
         assetID: { 
             type: String,
             required: true
