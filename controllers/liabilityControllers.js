@@ -4,6 +4,7 @@ import { Liability } from '../models/liabilityModel.js';
 export const postLiability = async (req, res) => {
     try {
         if (
+            !req.body.userID ||
             !req.body.liabilityID ||
             !req.body.liabilityName ||
             !req.body.type ||
@@ -17,6 +18,7 @@ export const postLiability = async (req, res) => {
         }
 
         const newLiability = {
+            userID: req.body.userID,
             liabilityID: req.body.liabilityID,
             liabilityName: req.body.liabilityName,
             type: req.body.type,

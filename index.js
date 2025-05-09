@@ -8,6 +8,10 @@ import cors from 'cors';
 
 import userRoute from './routes/userRoute.js';
 import authRoute from './routes/authRoutes.js';
+import chatRoute from './routes/chatRoute.js';
+
+import questionRoute from './routes/questionRoute.js';
+import answerRoute   from './routes/answerRoute.js';
 
 //Isuru
 import taxRateRoute from './routes/taxRateRoute.js';
@@ -36,6 +40,10 @@ app.get('/', (req, res) => {
 
 app.use('/users', userRoute);
 app.use('/auth', authRoute);
+app.use('/api/chat', chatRoute);
+
+app.use('/questions', questionRoute);
+app.use('/answers',   answerRoute);
 
 //Isuru
 app.use('/taxRate', taxRateRoute);

@@ -4,9 +4,9 @@ import { Income } from "../models/income.js";
 
 export const postIncome = async (req, res) => {
     try {
-      const { incomeID, incomeName, incomeType, date, amount } = req.body;
+      const { userID, incomeName, incomeType, date, amount } = req.body;
   
-      if (!incomeID || !incomeName || !incomeType || !date || !amount) {
+      if (!userID || !incomeName || !incomeType || !date || !amount) {
         return res.status(400).send({ message: 'All fields are required' });
       }
   
@@ -36,7 +36,7 @@ export const postIncome = async (req, res) => {
   
       // Save the new income with totalAmount
       const newIncome = await Income.create({
-        incomeID,
+        userID,
         incomeName,
         incomeType,
         date,
