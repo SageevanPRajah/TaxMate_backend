@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema(
     },
     role: { 
         type: String, 
-        enum: ["admin", "taxpayer"], 
+        enum: ["admin", "taxpayer","superAdmin"], 
         default: "taxpayer" 
     },
     hashed_password: { 
