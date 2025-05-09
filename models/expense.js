@@ -2,6 +2,9 @@ import mongoose from "mongoose";
 
 const expenseSchema = new mongoose.Schema(
     {
+        userID: { 
+            type: String 
+        },
         expenseID: {
             type: String,
             
