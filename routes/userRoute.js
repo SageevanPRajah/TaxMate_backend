@@ -10,7 +10,7 @@ router.post("/register", registerUser);
 router.post("/login", loginUser);
 
 // Protected Routes
-router.get("/", protect, getUsers); 
+router.get("/", getUsers); 
 router.put('/:id/role', updateUserRole);
 router.get("/profile", protect, getUserProfile);
 router.put("/update", protect, updateUser);
