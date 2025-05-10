@@ -5,7 +5,6 @@ export const postExpense = async (req, res) => {
     try {
         if(
             !req.body.userID ||
-            !req.body.expenseID ||
             !req.body.expenseName ||
             !req.body.date ||
             !req.body.expenseCategory ||
@@ -17,7 +16,6 @@ export const postExpense = async (req, res) => {
         }
         const newExpense = {
             userID: req.body.userID,
-            expenseID: req.body.expenseID,
             expenseName: req.body.expenseName,
             date: req.body.date,
             expenseCategory: req.body.expenseCategory,
