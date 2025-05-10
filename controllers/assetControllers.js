@@ -4,6 +4,7 @@ import { Asset } from '../models/assetModel.js';
 export const postAsset = async (req, res) => {
     try {
         if (
+            !req.body.userID ||
             !req.body.assetID ||
             !req.body.assetName ||
             !req.body.assetValue ||
@@ -19,6 +20,7 @@ export const postAsset = async (req, res) => {
         }
 
         const newAsset = {
+            userID: req.body.userID,
             assetID: req.body.assetID,
             assetName: req.body.assetName,
             assetValue: req.body.assetValue,

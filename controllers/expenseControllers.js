@@ -4,7 +4,7 @@ import { Expense } from "../models/expense.js";
 export const postExpense = async (req, res) => {
     try {
         if(
-            !req.body.expenseID ||
+            !req.body.userID ||
             !req.body.expenseName ||
             !req.body.date ||
             !req.body.expenseCategory ||
@@ -15,7 +15,7 @@ export const postExpense = async (req, res) => {
             });
         }
         const newExpense = {
-            expenseID: req.body.expenseID,
+            userID: req.body.userID,
             expenseName: req.body.expenseName,
             date: req.body.date,
             expenseCategory: req.body.expenseCategory,

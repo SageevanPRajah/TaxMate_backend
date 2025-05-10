@@ -2,6 +2,9 @@ import mongoose from 'mongoose';
 
 const liabilitySchema = new mongoose.Schema(
     {
+        userID: { 
+            type: String 
+        },
         liabilityID: { 
             type: String,
             required: true
