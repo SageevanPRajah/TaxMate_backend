@@ -111,16 +111,6 @@ export const loginUser = async (req, res) => {
   }
 };
 
-// Get all users (Admin only)
-export const getUsers = async (req, res) => {
-  try {
-    const users = await User.find().select("-hashed_password");
-    res.status(200).json(users);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
 // Get user profile
 export const getUserProfile = async (req, res) => {
   try {
@@ -206,5 +196,16 @@ export const updateUserRole = async (req, res) => {
   } catch (error) {
     console.error("Update Role Error:", error);
     res.status(500).json({ message: "Server error" });
+  }
+};
+
+
+// Get all users (Admin only)
+export const getUsers = async (req, res) => {
+  try {
+    const users = await User.find().select("-hashed_password");
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };

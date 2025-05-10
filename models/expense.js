@@ -5,10 +5,6 @@ const expenseSchema = new mongoose.Schema(
         userID: { 
             type: String 
         },
-        expenseID: {
-            type: String,
-            
-        },
 
         expenseName: {
             type: String,
